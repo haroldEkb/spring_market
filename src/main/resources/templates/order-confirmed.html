@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Order confirmed</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Cart)}" />
+    <div th:if="${orderId != null}">
+        <h1>Ваш заказ оформлен. Для того, чтобы он был обработан, Вы должны его оплатить</h1>
+        <form th:action="@{/paypal/buy}" method="get" class="form-horizontal">
+            <input th:value="${orderId}" th:name="orderId" id="name-input" type="hidden" class="form-control"><br>
+            <div style="margin-top: 10px" class="form-group">
+                <div class="col-sm-6 controls">
+                    <button type="submit" class="btn btn-warning" th:text="'Перейти к оплате заказа '"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+<!--    <a th:href="@{/paypal/buy}" th:text="Перейти к оплате заказа"></a>-->
+
+</div>
+
+</body>
+</html>

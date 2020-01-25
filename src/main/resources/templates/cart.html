@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Cart</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Cart)}" />
+
+    <h1>Корзина</h1>
+
+    <span th:if="${items.size() == 0}">Ваша корзина пуста</span>
+    <table th:if="${items.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Название товара</th>
+            <th>Количество</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.product.title}"/>
+            <td th:text="${item.quantity}"/>
+            <td th:text="${item.totalPrice}"/>
+        </tr>
+        <tr>
+            <td/>
+            <td>Total Cost = </td>
+            <td th:text="${totalPrice}"/>
+            <td />
+        </tr>
+        <!--<tr th:each="entry : ${products.entrySet()}">-->
+            <!--<td th:text="${entry.getKey().id}"/>-->
+            <!--<td th:text="${entry.getKey().title}"/>-->
+            <!--<td th:text="${entry.getKey().cost}"/>-->
+            <!--<td th:text="${entry.getValue()}"/>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td/>-->
+            <!--<td>Total Cost = </td>-->
+            <!--<td th:text="${totalPrice}"/>-->
+            <!--<td />-->
+        <!--</tr>-->
+        <!--<tr th:each="entry : ${products.instanceMap}">-->
+            <!--<td th:text="${entry.key.id}"/>-->
+            <!--<td th:text="${entry.key.title}"/>-->
+            <!--<td th:text="${entry.key.cost}"/>-->
+            <!--<td th:text="${entry.value}"/>-->
+        <!--</tr>-->
+        </tbody>
+    </table>
+
+    <a th:if="${items.size() > 0}" th:href="@{/orders/checkout}" th:text="#{order.checkout}"></a>
+
+</div>
+
+</body>
+</html>

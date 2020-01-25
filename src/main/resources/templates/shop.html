@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title th:text="#{filters}"></title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Shop)}" />
+
+    <h1 th:text="#{filters}"/>
+
+    <form th:action="@{/shop}" method="GET">
+        <div class="input-group">
+            <input th:value="${param.word != null} ? ${param.word}" class="form-control" th:name="word" type="text"
+                   th:placeholder="#{filters.word}">
+            <input th:value="${param.min != null} ? ${param.min}" class="form-control" th:name="min" type="number"
+                   th:placeholder="#{filters.price.min}">
+            <input th:value="${param.max != null} ? ${param.max}" class="form-control" th:name="max" type="number"
+                   th:placeholder="#{filters.price.max}">
+            <select th:name="categoryId">
+                <option th:text="'Не выбрана'" th:value="null" />
+                <option th:each="category : ${categories}" th:text="${category.title}" th:value="${category.id}" />
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" th:text="#{filters.submit}"></button>
+    </form>
+
+
+
+    <br>
+
+    <h1 th:text="#{products.list}"></h1>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th th:text="#{products.id}"></th>
+            <th></th>
+            <th th:text="#{products.title}"></th>
+            <th th:text="#{products.price}"></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${page.content}">
+            <td th:text="${product.id}"/>
+            <td>
+                <img class="table_image" height="40px" width="30px" th:src="@{'/image_repository/products/' + ${product.id} + '/img_1.jpg'}">
+            </td>
+            <td><a th:href="@{'/shop/' + ${product.id}}" th:text="${product.title}"/></td>
+            <td th:text="${product.cost}"/>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/cart/add?id=' + ${product.id}}">Add to Cart</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${!(page.getNumber() > 0) ? 'disabled' : ''}">
+                <a th:class="page-link" th:href="@{'/products?pageNumber=' + ${page.getNumber()} + ${filters}}"
+                   th:text="#{paging.prev}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${page.getNumber() + 1 == i ? 'active' : ''}"
+                th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">
+                <a th:class="page-link" th:text="${i}" th:href="@{'/products?pageNumber=' + ${i} + ${filters}}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${!(page.getNumber() < page.getTotalPages() - 1) ? 'disabled' : ''}">
+                <a th:class="page-link" th:href="@{'/products?pageNumber=' + ${page.getNumber() + 2} + ${filters}}"
+                   th:text="#{paging.next}"></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div th:if="${lastViewed != null}">
+        <h4>Последние просмотренные товары:</h4>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th>Название товара</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${lastViewed}">
+                <td>
+                    <img class="table_image" height="40px" width="30px" th:src="@{'/image_repository/products/' + ${product.id} + '/img_1.jpg'}">
+                </td>
+                <td><a th:href="@{'/shop/' + ${product.id}}" th:text="${product.title}"/></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

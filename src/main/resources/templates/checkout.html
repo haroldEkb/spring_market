@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Cart)}" />
+
+    <h1>Оформление заказа</h1>
+
+    <span>Количество товаров: </span>
+    <span th:text="${itemCount}"></span><br>
+    <span>Сумма заказа: </span>
+    <span th:text="${totalPrice}"></span><br>
+
+    <div th:if="${itemCount > 0}">
+        <form th:action="@{/orders/create}" method="get" class="form-horizontal">
+            <h2>Форма оформления заказа</h2>
+
+            <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input th:value="${phone != null} ? ${phone}" class="form-control" th:name="phone" type="text"
+                       th:placeholder="#{order.phone}">
+            </div>
+
+            <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input th:value="${firstName != null} ? ${firstName}" class="form-control" th:name="firstName" type="text"
+                       th:placeholder="#{order.first.name}">
+            </div>
+
+            <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input th:value="${address != null} ? ${address}" class="form-control" th:name="address" type="text"
+                       th:placeholder="#{order.address}">
+            </div>
+
+            <div style="margin-top: 10px" class="form-group">
+                <div class="col-sm-6 controls">
+                    <button type="submit" class="btn btn-warning">Оформить заказ</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<!--    <div sec:authorize="isAuthenticated()">-->
+<!--        <span>Имя</span><br>-->
+<!--        <span th:text="${user.firstName != null} ? ${user.firstName}" th:name="firstName"></span><br>-->
+<!--        <span>Фамилия</span><br>-->
+<!--        <span th:text="${user.lastName != null} ? ${user.lastName}" th:name="lastName"></span><br>-->
+<!--        <span>Телефон</span><br>-->
+<!--        <span th:text="${user.phone != null} ? ${user.phone}" th:name="phone"></span><br>-->
+<!--        <span>E-mail</span><br>-->
+<!--        <span th:text="${user.email != null} ? ${user.email}" th:name="email"></span><br>-->
+<!--    </div>-->
+
+<!--    <form sec:authorize="isAuthenticated()" th:href="@{/orders/create}" method="get">-->
+<!--        <input th:name="address" type="text" placeholder="Адрес доставки"><br>-->
+<!--        <input type="radio" value="card"> Безналичный расчет<br>-->
+<!--        <input type="radio" value="cash"> Наличный расчет при получении<br>-->
+<!--        <button type="submit" class="btn btn-primary">Оформить заказ</button>-->
+<!--    </form>-->
+
+<!--    <form sec:authorize="isAnonymous()" th:href="@{/orders/anonymous}" th:object="${systemTempUser}" method="post">-->
+<!--        <input th:field="*{username}" type="text" placeholder="Имя"><br>-->
+<!--        <input th:field="*{phone}" type="text" placeholder="Телефон"><br>-->
+<!--        <div th:if="${registrationError != null}" th:text="${registrationError}" class="alert alert-danger" role="alert"></div>-->
+<!--        <input th:name="address" type="text" placeholder="Адрес доставки"><br>-->
+<!--        <input type="radio" value="card"> Безналичный расчет<br>-->
+<!--        <input type="radio" value="cash"> Наличный расчет при получении<br>-->
+<!--        <button type="submit" class="btn btn-primary">Оформить заказ</button>-->
+<!--    </form>-->
+</div>
+
+</body>
+</html>

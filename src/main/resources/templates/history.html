@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title th:text="#{nav.history}"></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Shop)}" />
+
+    <h1 th:text="#{nav.history}"></h1>
+    <p th:if="${orders.size() == 0}">Вы еще не совершили ни одной покупки</p>
+    <div th:if="${orders.size() > 0}">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th th:text="#{order.id}" scope="col"></th>
+                <th th:text="#{order.price}" scope="col"></th>
+                <th th:text="#{order.status}" scope="col"></th>
+                <th th:text="#{order.phone}" scope="col"></th>
+                <th th:text="#{order.address}" scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"/>
+                <td th:text="${order.price}"/>
+                <td th:text="${order.status}"/>
+                <td th:text="${order.phone}"/>
+                <td th:text="${order.address}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a th:href="@{/shop}" th:text="#{nav.back}"></a>
+</div>
+</body>
+</html>
